@@ -73,6 +73,13 @@ yarn-error.log*
 # Environment files (local configs)
 /.env.*
 
-# Google Services and firebase option
-/android/app/google-services.json
+# Firebase configuration files
+firebase-config.js
+firebaseConfig.js
+google-services.json
+GoogleService-Info.plist
 lib/firebase_options.dart
+firebase_options.dart
+
+# Android specific
+android/app/google-services.json

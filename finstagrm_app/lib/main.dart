@@ -1,13 +1,16 @@
 import 'package:finstagrm_app/core/router/app_route.dart';
 import 'package:finstagrm_app/core/router/app_route_config.dart';
+import 'package:finstagrm_app/core/services/firebase_services.dart';
 import 'package:finstagrm_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  GetIt.instance.registerSingleton<FirebaseServices>(FirebaseServices());
   runApp(const MyApp());
 }
 
@@ -24,7 +27,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
           title: 'Finstagram',
-          initialRoute: AppRoute.homeScreen,
+          initialRoute: AppRoute.loginScreen,
           onGenerateRoute: AppRouteConfig().onGenerateRoute,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(

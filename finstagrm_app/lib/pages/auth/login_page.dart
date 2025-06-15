@@ -1,9 +1,12 @@
 import 'dart:developer';
 import 'package:finstagrm_app/core/router/app_route.dart';
+import 'package:finstagrm_app/core/services/firebase_services.dart';
 import 'package:finstagrm_app/core/widgets/height_spacer.dart';
 import 'package:finstagrm_app/pages/auth/widgets/custom_button.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'widgets/custom_form_fields.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,8 +19,16 @@ class _LoginPageState extends State<LoginPage> {
   double? _deviceWidth;
   final GlobalKey<FormState> _formKeyState = GlobalKey<FormState>();
   TextEditingController? _emailController, _passwordController;
+  FirebaseServices? firebaseServices;
   String? _email, _password;
   bool _isPasswordVisible = false;
+
+  @override
+  void initState() {
+    firebaseServices = GetIt.instance.get<FirebaseServices>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     _deviceWidth = MediaQuery.of(context).size.width;
@@ -117,10 +128,16 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _loginUser() {
+  void _loginUser() async {
     if (_formKeyState.currentState!.validate()) {
       _formKeyState.currentState!.save();
-      FocusScope.of(context).unfocus();
+      bool isLogin = await firebaseServices!.loginUser(
+        email: _email!,
+        password: _password!,
+      );
+      if (isLogin && mounted) {
+        Navigator.popAndPushNamed(context, AppRoute.homeScreen);
+      }
     }
   }
 

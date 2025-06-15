@@ -1,9 +1,13 @@
 import 'package:finstagrm_app/core/router/app_route.dart';
 import 'package:finstagrm_app/core/router/app_route_config.dart';
+import 'package:finstagrm_app/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
